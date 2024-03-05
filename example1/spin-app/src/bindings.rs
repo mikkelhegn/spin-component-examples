@@ -4,14 +4,12 @@ pub mod component {
     
     #[allow(clippy::all)]
     pub mod handle_data {
-        use serde::{Deserialize, Serialize};
-
       #[used]
       #[doc(hidden)]
       #[cfg(target_arch = "wasm32")]
       static __FORCE_SECTION_REF: fn() = super::super::super::__link_section;
       /// The my-object record, aka. the object to pass between the two components.
-      #[derive(Clone, Deserialize, Serialize)]
+      #[derive(Clone, serde::Deserialize, serde::Serialize)]
       pub struct MyObject {
         pub name: wit_bindgen::rt::string::String,
         pub steps: u32,
