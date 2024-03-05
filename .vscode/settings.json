@@ -1,0 +1,6 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "example1/business-logic/Cargo.toml",
+        "example1/spin-app/Cargo.toml"
+    ]
+}

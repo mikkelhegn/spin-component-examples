@@ -1,0 +1,5 @@
+package component:spin-http-component;
+
+world spin-http-component {
+    import component:business-logic/handle-data;
+}
