@@ -27,3 +27,5 @@ Both components are written in Rust, and relies on Cargo to bootstrap `wit-bindg
 ```toml
 command = "cargo component build && cargo component build --manifest-path ../business-logic/Cargo.toml && wasm-tools compose target/wasm32-wasi/debug/spinhttpcomponent.wasm -d ../business-logic/target/wasm32-wasi/debug/businesslogic.wasm -o service.wasm"
 ```
+
+The resulting Wasm module `service.wasm` is a wasi-http compliant module, and can be run by other runtimes than Spin, e.g. Wasmtime.
