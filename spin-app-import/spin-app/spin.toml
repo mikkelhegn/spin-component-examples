@@ -14,4 +14,4 @@ component = "spin-app"
 source = "service.wasm"
 allowed_outbound_hosts = []
 [component.spin-app.build]
-command = "cargo component build && cargo component build --manifest-path ../business-logic/Cargo.toml && wasm-tools compose target/wasm32-wasi/debug/spinhttpcomponent.wasm -d ../business-logic/target/wasm32-wasi/debug/businesslogic.wasm -o service.wasm"
+command = "cargo component build && cargo component build --target wasm32-unknown-unknown --manifest-path ../business-logic/Cargo.toml && wasm-tools compose target/wasm32-wasi/debug/spinhttpcomponent.wasm -d ../business-logic/target/wasm32-unknown-unknown/debug/businesslogic.wasm -o service.wasm"
