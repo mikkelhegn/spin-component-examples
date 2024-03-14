@@ -1,0 +1,19 @@
+spin_manifest_version = 2
+
+[application]
+name = "sqlite_proxy_example"
+version = "0.1.0"
+description = "A simple HTTP handler"
+
+# Query using Python with Proxy
+[[trigger.http]]
+route = "/..."
+component = "python"
+
+# A composition of the proxy and the component written in Python
+[component.python]
+source = "python.wasm"
+sqlite_databases = ["default"]
+[component.python.build]
+command = "cargo component build --manifest-path ../proxy/Cargo.toml --release && wasm-tools compose python/app.wasm -d ../proxy/target/wasm32-unknown-unknown/release/proxy.wasm -o python.wasm"
+

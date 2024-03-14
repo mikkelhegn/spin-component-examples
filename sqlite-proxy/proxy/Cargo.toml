@@ -1,0 +1,21 @@
+[package]
+name = "proxy"
+description = "A sqlite proxy component"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+wit-bindgen = { git = "https://github.com/bytecodealliance/wit-bindgen", rev = "3518b5e2f08e4028b7f0cf0ed386e03423a3cd1b" }
+spin-sdk = { git = "https://github.com/fermyon/spin", tag = "v2.0.1" }
+regex = "1.10"
+
+[workspace]
+
+[package.metadata.component]
+package = "fermyon:proxy"
+
+[package.metadata.component.target.dependencies]
+"fermyon:spin" = { path = "wit/deps/fermyon" }

@@ -1,0 +1,6 @@
+package fermyon:proxy;
+
+world proxy {
+    import fermyon:spin/sqlite@2.0.0;
+    export fermyon:spin/sqlite@2.0.0;
+}

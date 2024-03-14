@@ -1,0 +1,55 @@
+spin_manifest_version = 2
+
+[application]
+name = "sqlite_proxy_example"
+version = "0.1.0"
+description = "A simple HTTP handler"
+
+# Query using Rust
+[[trigger.http]]
+route = "/no-proxy-rust"
+component = "no-proxy-rust"
+
+# Query using Rust with Proxy
+[[trigger.http]]
+route = "/proxy-rust"
+component = "proxy-rust"
+
+# Query using Python
+[[trigger.http]]
+route = "/no-proxy-python"
+component = "no-proxy-python"
+
+# Query using Python with Proxy
+[[trigger.http]]
+route = "/proxy-python"
+component = "proxy-python"
+
+# A component written in Rust
+[component.no-proxy-rust]
+source = "rust/target/wasm32-wasi/release/example.wasm"
+sqlite_databases = ["default"]
+[component.no-proxy-rust.build]
+command = "cargo component build --manifest-path rust/Cargo.toml --release"
+
+# A component written in Python
+[component.no-proxy-python]
+source = "python/app.wasm"
+sqlite_databases = ["default"]
+[component.no-proxy-python.build]
+command = "./build.sh"
+workdir = "python"
+
+# A composition of the proxy and the component written in Python
+[component.proxy-python]
+source = "proxy-python.wasm"
+sqlite_databases = ["default"]
+[component.proxy-python.build]
+command = "cargo component build --manifest-path ../proxy/Cargo.toml --release && wasm-tools compose python/app.wasm -d ../proxy/target/wasm32-wasi/release/proxy.wasm -o proxy-python.wasm"
+
+# A composition of the proxy and the component written in Rust
+[component.proxy-rust]
+source = "proxy-rust.wasm"
+sqlite_databases = ["default"]
+[component.proxy-rust.build]
+command = "cargo component build --manifest-path ../proxy/Cargo.toml --release && wasm-tools compose rust/target/wasm32-wasi/release/example.wasm -d ../proxy/target/wasm32-wasi/release/proxy.wasm -o proxy-rust.wasm"
