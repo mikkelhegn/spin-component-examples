@@ -1,0 +1,16 @@
+spin_manifest_version = 2
+
+[application]
+name = "redis-handler"
+version = "0.1.0"
+authors = ["Mikkel Mørk Hegnhøj <mikkel@fermyon.com>"]
+description = ""
+
+[[trigger.http]]
+route = "/..."
+component = "cloud-event"
+
+[component.cloud-event]
+source = "service.wasm"
+[component.cloud-event.build]
+command = "cargo component build && cargo component build --manifest-path ../redis-handler/Cargo.toml && wasm-tools compose target/wasm32-wasi/debug/cloud_event.wasm -d ../redis-handler/target/wasm32-wasi/debug/redishandler.wasm -o service.wasm" 

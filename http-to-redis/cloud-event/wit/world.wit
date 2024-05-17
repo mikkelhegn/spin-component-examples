@@ -1,0 +1,5 @@
+package component:cloud-event;
+
+world cloud-event {
+    import fermyon:spin/inbound-redis;
+}
