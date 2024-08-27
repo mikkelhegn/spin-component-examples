@@ -11,7 +11,8 @@ async fn middleware(request: IncomingRequest, output: ResponseOutparam) {
         Ok(url) => url,
         Err(e) => {
             eprintln!("error parsing URL: {e}");
-            let response = OutgoingResponse::new(500, &Headers::new(&[]));
+            let response = OutgoingResponse::new(Headers::new());
+            response.set_status_code(500);
             output.set(response);
             return;
         }
@@ -28,7 +29,7 @@ async fn middleware(request: IncomingRequest, output: ResponseOutparam) {
 fn get_url(request: &IncomingRequest) -> anyhow::Result<Url> {
     let mut host_header = request
         .headers()
-        .get(http::header::HOST.as_str())
+        .get(&http::header::HOST.to_string())
         .into_iter();
     let header = &host_header
         .next()
@@ -39,13 +40,3 @@ fn get_url(request: &IncomingRequest) -> anyhow::Result<Url> {
     Ok(Url::parse(&full)?)
 }
 
-wit_bindgen::generate!({
-    runtime_path: "::spin_sdk::wit_bindgen::rt",
-    world: "wasi-http-import",
-    path: "wit",
-    with: {
-        "wasi:http/types@0.2.0-rc-2023-10-18": spin_sdk::wit::wasi::http::types,
-        "wasi:io/streams@0.2.0-rc-2023-10-18": spin_sdk::wit::wasi::io::streams,
-        "wasi:io/poll@0.2.0-rc-2023-10-18": spin_sdk::wit::wasi::io::poll,
-    }
-});

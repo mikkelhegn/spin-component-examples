@@ -11,10 +11,11 @@ pub async fn authenticate(request: IncomingRequest, output: ResponseOutparam) {
         Some(token) => token,
         None => {
             eprintln!("no access token found in incoming request");
-            let headers =
-                Headers::new(&[("Content-Type".to_string(), "text/html".as_bytes().to_vec())]);
 
-            let response = OutgoingResponse::new(403, &headers);
+            let response = OutgoingResponse::new(Headers::new());
+            response.set_status_code(403);
+            response.headers().set(&"Content-Type".to_string(), &["text/html".as_bytes().to_vec()]);
+
             let mut body = response.take_body();
             output.set(response);
 
@@ -48,11 +49,10 @@ pub async fn authenticate(request: IncomingRequest, output: ResponseOutparam) {
                 crate::wasi::http::incoming_handler::handle(request, output.into_inner());
             } else {
                 eprintln!("unauthenticated");
-                let headers =
-                    Headers::new(&[("Content-Type".to_string(), "text/html".as_bytes().to_vec())]);
 
-                let response = OutgoingResponse::new(status.as_u16(), &headers);
-
+                let response = OutgoingResponse::new(Headers::new());
+                response.headers().set(&"Content-Type".to_string(), &["text/html".as_bytes().to_vec()]);
+                response.set_status_code(status.as_u16());
                 let mut body = response.take_body();
                 output.set(response);
 
@@ -66,13 +66,15 @@ pub async fn authenticate(request: IncomingRequest, output: ResponseOutparam) {
         }
         Err(error) => {
             eprintln!("error authenticating with github: {error}");
-            output.set(OutgoingResponse::new(500, &Headers::new(&[])));
+            let response = OutgoingResponse::new(Headers::new());
+            response.set_status_code(500);
+            output.set(response);
         }
     }
 }
 
 fn get_access_token(request: &IncomingRequest) -> Option<String> {
-    let cookies: Vec<Vec<u8>> = request.headers().get(COOKIE.as_str());
+    let cookies: Vec<Vec<u8>> = request.headers().get(&COOKIE.to_string());
     for encoded in cookies {
         let parsed = Cookie::split_parse(String::from_utf8_lossy(&encoded));
         for cookie in parsed {

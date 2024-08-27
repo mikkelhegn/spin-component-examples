@@ -21,7 +21,8 @@ pub async fn authorize(output: ResponseOutparam) {
         }
         Err(error) => {
             eprintln!("failed to initialize oauth client: {error}");
-            let response = OutgoingResponse::new(500, &Headers::new(&[]));
+            let response = OutgoingResponse::new(Headers::new());
+            response.set_status_code(500);
             output.set(response);
             return;
         }
@@ -37,7 +38,8 @@ pub async fn authorize(output: ResponseOutparam) {
     // TODO: cache the csrf token for validation on callback
 
     let location = authorize_url.to_string().as_bytes().to_vec();
-    let headers = Headers::new(&[("Location".to_string(), location)]);
-    let response = OutgoingResponse::new(301, &headers);
+    let response = OutgoingResponse::new(Headers::new());
+    response.headers().set(&"Location".to_string(), &[location]);
+    response.set_status_code(301);
     output.set(response);
 }
