@@ -1,6 +1,9 @@
-mod bindings;
+use exports::component::business_logic::data_handler::{Guest, MyObject};
 
-use bindings::exports::component::business_logic::handle_data::*;
+wit_bindgen::generate!({
+    world: "business-logic",
+});
+
 struct Component;
 
 impl Guest for Component {
@@ -14,3 +17,5 @@ impl Guest for Component {
         input
     }
 }
+
+export!(Component);

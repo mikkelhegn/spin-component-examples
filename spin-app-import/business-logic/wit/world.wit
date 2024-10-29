@@ -1,6 +1,6 @@
 package component:business-logic;
 
-interface handle-data {
+interface data-handler {
   // The function to pass on the my-object to.
   handle-data: func(key: my-object) -> my-object;
 
@@ -13,5 +13,5 @@ interface handle-data {
 }
 
 world business-logic {
-  export handle-data;
+  export data-handler;
 }
