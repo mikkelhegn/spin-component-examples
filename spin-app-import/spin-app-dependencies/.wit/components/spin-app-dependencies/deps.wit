@@ -1,0 +1,23 @@
+package spin-deps:deps@0.1.0;
+
+world deps {
+  import component:business-logic/data-handler;
+}
+package component:business-logic {
+  interface data-handler {
+    record my-object {
+      name: string,
+      steps: u32,
+      processed: option<bool>,
+    }
+
+    handle-data: func(key: my-object) -> my-object;
+  }
+}
+
+
+package root:component {
+  world dependency-world {
+    import component:business-logic/data-handler;
+  }
+}

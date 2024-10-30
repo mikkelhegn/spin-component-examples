@@ -1,3 +1,2 @@
 target/
 .spin/
-*.wasm

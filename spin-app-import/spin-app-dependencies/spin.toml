@@ -1,0 +1,21 @@
+spin_manifest_version = 2
+
+[application]
+name = "spin-app-dependencies"
+version = "0.1.0"
+authors = ["Mikkel Mork Hegnhoj <mikkel@fermyon.com>"]
+description = ""
+
+[[trigger.http]]
+route = "/..."
+component = "spin-app-dependencies"
+
+[component.spin-app-dependencies]
+source = "target/wasm32-wasi/release/spin_app_dependencies.wasm"
+allowed_outbound_hosts = []
+[component.spin-app-dependencies.build]
+command = "cargo build --target wasm32-wasi --release"
+watch = ["src/**/*.rs", "Cargo.toml"]
+
+[component.spin-app-dependencies.dependencies]
+"component:business-logic/data-handler" = { path = "../business-logic/target/wasm32-unknown-unknown/debug/businesslogic.wasm" }
