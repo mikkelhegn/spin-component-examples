@@ -13,3 +13,7 @@ In this example a Spin component (a wasi-http component using the Spin SDK) impo
 ### [HTTP-Authentication](https://github.com/fermyon/http-auth-middleware)
 
 This repo is an example of how to compose a middleware component with a business logic component.
+
+### [Demo Docker Container for wasi-http](https://github.com/fermyon/wasi-http-tools-demo-container)
+
+This repository contains a Dockerfile, which creates a container to help demo wasi-http across Spin, NGINX Unit, and Wastime.
