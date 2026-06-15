@@ -11,10 +11,10 @@ route = "/..."
 component = "spin-app-dependencies"
 
 [component.spin-app-dependencies]
-source = "target/wasm32-wasi/release/spin_app_dependencies.wasm"
+source = "target/wasm32-wasip1/release/spin_app_dependencies.wasm"
 allowed_outbound_hosts = []
 [component.spin-app-dependencies.build]
-command = "cargo build --target wasm32-wasi --release"
+command = "cargo build --target wasm32-wasip1 --release"
 watch = ["src/**/*.rs", "Cargo.toml"]
 
 [component.spin-app-dependencies.dependencies]
